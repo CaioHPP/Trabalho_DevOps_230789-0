@@ -35,3 +35,29 @@ class Student(db.Model):
     class_name = db.Column(db.String(50), nullable=False)
     subjects = db.Column(db.String(200), nullable=False)
     registration = db.Column(db.String(200), nullable=False)
+
+
+# Tentativa de conexão ao banco de dados
+connection_attempts = 5
+for attempt in range(connection_attempts):
+    try:
+        with app.app_context():
+            db.create_all()  # Configurando o banco de dados
+            if not appbuilder.sm.find_user(username='admin'):
+                appbuilder.sm.add_user(
+                    username='admin',
+                    first_name='Admin',
+                    last_name='User',
+                    email='admin@admin.com',
+                    role=appbuilder.sm.find_role(appbuilder.sm.auth_role_admin),
+                    password='admin'
+                )
+        logger.info("Banco de dados configurado com sucesso.")
+        break
+    except OperationalError:
+        if attempt < connection_attempts - 1:
+            logger.warning("Falha ao conectar ao banco de dados. Retentando em 5 segundos...")
+            time.sleep(5)
+        else:
+            logger.error("Excesso de falhas ao conectar ao banco de dados.")
+            raise
