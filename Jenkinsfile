@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        REPOSITORY_URL = 'git@github.com:CaioHPP/Trabalho_DevOps_230789-0.git'
+        REPOSITORY_URL = 'https://github.com/CaioHPP/Trabalho_DevOps_230789-0'
         BRANCH_NAME = 'dev'
     }
 
@@ -18,7 +18,8 @@ pipeline {
             steps {
                 script {
                     // Rodar os testes com o pytest (ou qualquer outra ferramenta de testes que você esteja utilizando)
-                    sh 'docker-compose run --rm test'
+
+                    echo 'Testes antes do deploys!'
                 }
             }
         }
@@ -28,12 +29,12 @@ pipeline {
                 script {
                     // Construir as imagens Docker para cada serviço
                     sh '''
-                        docker-compose build
+                        docker compose build
                     '''
 
                     // Subir os containers do Docker com Docker Compose
                     sh '''
-                        docker-compose up -d
+                        docker compose up -d
                     '''
 
                     // // (Opcional) Realizar o monitoramento e verificação de saúde após o deploy
@@ -47,6 +48,14 @@ pipeline {
                 //     docker logs prometheus
                 //     docker logs grafana
                 // '''
+                }
+            }
+        }
+        stage('Rodar Testes depois do deploy') {
+            steps {
+                script {
+                    // Rodar os testes com o pytest (ou qualquer outra ferramenta de testes que você esteja utilizando)
+                    sh 'docker compose run --rm test'
                 }
             }
         }
