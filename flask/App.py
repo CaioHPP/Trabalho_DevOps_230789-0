@@ -61,3 +61,45 @@ for attempt in range(connection_attempts):
         else:
             logger.error("Excesso de falhas ao conectar ao banco de dados.")
             raise
+
+
+# Classe de visão para gerenciamento de alunos no painel administrativo
+class StudentView(ModelView):
+    datamodel = SQLAInterface(Student)
+    list_columns = ['id', 'first_name', 'last_name', 'class_name', 'subjects', 'registration']
+
+# Adicionando a visão de alunos ao painel do AppBuilder
+appbuilder.add_view(
+    StudentView,
+    "Students List",
+    icon="fa-folder-open-o",
+    category="Students",
+)
+
+# Rota para obter a lista de alunos
+@app.route('/students', methods=['GET'])
+def get_students():
+    students = Student.query.all()
+    result = [{'id': s.id, 'first_name': s.first_name, 'last_name': s.last_name, 
+               'class_name': s.class_name, 'subjects': s.subjects, 'registration': s.registration} for s in students]
+    return jsonify(result)
+
+# Rota para adicionar um novo aluno
+@app.route('/students', methods=['POST'])
+def add_student():
+    student_data = request.get_json()
+    new_student = Student(
+        first_name=student_data['first_name'],
+        last_name=student_data['last_name'],
+        class_name=student_data['class_name'],
+        subjects=student_data['subjects'],
+        registration=student_data['registration']
+    )
+    db.session.add(new_student)
+    db.session.commit()
+    logger.info(f"Novo aluno {student_data['first_name']} {student_data['last_name']} adicionado.")
+    return jsonify({'message': 'Aluno cadastrado com sucesso!'}), 201
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
+
