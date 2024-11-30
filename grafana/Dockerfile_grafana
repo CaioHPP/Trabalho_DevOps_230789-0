@@ -6,11 +6,13 @@ USER root
 RUN mkdir -p /etc/grafana/provisioning/dashboards /etc/grafana/provisioning/datasources
 
 # Copiar os arquivos para o diretório correto
-COPY provisioning/datasources/datasource.yml /etc/grafana/provisioning/datasources/
-COPY provisioning/dashboards/dashboard.yml /etc/grafana/provisioning/dashboards/
-COPY dashboards/mariadb_dashboard.json /etc/grafana/provisioning/dashboards/
+COPY provisioning/datasources/datasource.yml /var/lib/grafana/provisioning/datasources/
+COPY provisioning/dashboards/dashboard.yml /var/lib/grafana/provisioning/dashboards/
+COPY dashboards/mariadb_dashboard.json /var/lib/grafana/provisioning/dashboards/
+
 
 # Garantir permissões para o usuário grafana
-RUN chown -R 472:472 /etc/grafana/provisioning
+RUN chown -R 472:472 /var/lib/grafana/provisioning
+
 
 USER grafana
