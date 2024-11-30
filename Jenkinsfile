@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     // Rodar os testes com o pytest (ou qualquer outra ferramenta de testes que você esteja utilizando)
-                    sh 'pytest --maxfail=1 --disable-warnings -q'
+                    sh 'docker-compose run --rm test'
                 }
             }
         }
