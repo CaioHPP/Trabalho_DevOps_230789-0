@@ -1,12 +1,16 @@
 FROM grafana/grafana:latest
+USER root
+
+RUN mkdir /var/lib/grafana/dashboards
 
 # Copia os arquivos de configuração
-COPY provisioning/datasources/ /etc/grafana/provisioning/datasources/
-COPY provisioning/dashboards/ /etc/grafana/provisioning/dashboards/
-COPY dashboards/ /var/lib/grafana/dashboards/
+COPY provisioning/datasource.yml /etc/grafana/provisioning/datasources/
+COPY provisioning/dashboard.yml /etc/grafana/provisioning/dashboards/
+COPY dashboards/mariadb_dashboard.json /var/lib/grafana/dashboards/
+
 
 
 # Permissões para o grafana
-USER root
-RUN chmod -R 755 /etc/grafana /var/lib/grafana
+RUN chown -R 472:472 /etc/grafana/provisioning
+
 USER grafana
