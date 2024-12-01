@@ -1,7 +1,7 @@
 {
   "id": null,
   "title": "Monitoramento - Requests",
-  "uid": "prom-requests-dashboard-19",
+  "uid": "prom-requests",
   "timezone": "browser",
   "schemaVersion": 36,
   "version": 1,
@@ -21,11 +21,7 @@
         {
           "expr": "rate(prometheus_http_requests_total{job=\"prometheus\"}[1m])",
           "legendFormat": "{{handler}}",
-          "refId": "A",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ce5g7qqa9spa8b"
-          }
+          "refId": "A"
         }
       ],
       "xaxis": {
@@ -44,12 +40,12 @@
         }
       ],
       "lines": true,
-      "fill": 3,
-      "linewidth": 1,
+      "fill": 1,
+      "linewidth": 2,
       "aliasColors": {},
       "tooltip": {
         "shared": true,
-        "sort": "current"
+        "sort": 0
       },
       "legend": {
         "show": true,
@@ -71,28 +67,6 @@
       "30s",
       "1m",
       "5m"
-    ]
-  },
-  "annotations": {
-    "list": [
-      {
-        "builtIn": 1,
-        "datasource": {
-          "type": "grafana",
-          "uid": "-- Grafana --"
-        },
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
-        "target": {
-          "limit": 100,
-          "matchAny": false,
-          "tags": [],
-          "type": "dashboard"
-        },
-        "type": "dashboard"
-      }
     ]
   }
 }

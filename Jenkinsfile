@@ -28,7 +28,11 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    docker compose up --build -d
+                     docker compose build
+                    '''
+
+                    sh '''
+                        docker compose up -d
                     '''
                 }
             }
