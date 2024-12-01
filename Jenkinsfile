@@ -41,6 +41,7 @@ pipeline {
             steps {
                 script {
                     // Rodar os testes com o pytest (ou qualquer outra ferramenta de testes que você esteja utilizando)
+                    sh 'sleep 50' // Esperar 50 segundos para o container subir
                     sh 'docker compose run --rm test'
                 }
             }
