@@ -27,27 +27,9 @@ pipeline {
         stage('Build e Deploy') {
             steps {
                 script {
-                    // Construir as imagens Docker para cada serviço
                     sh '''
-                        docker compose build
+                    docker compose up --build -d
                     '''
-
-                    // Subir os containers do Docker com Docker Compose
-                    sh '''
-                        docker compose up -d
-                    '''
-
-                    // // (Opcional) Realizar o monitoramento e verificação de saúde após o deploy
-                    // // Exemplo para verificar se o container Flask está funcionando:
-                    // sh '''
-                    //     docker ps -q --filter "name=flask"
-                    // '''
-
-                // // Verificar logs do Prometheus ou Grafana, caso necessário
-                // sh '''
-                //     docker logs prometheus
-                //     docker logs grafana
-                // '''
                 }
             }
         }

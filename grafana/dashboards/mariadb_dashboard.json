@@ -21,7 +21,11 @@
         {
           "expr": "rate(prometheus_http_requests_total{job=\"prometheus\"}[1m])",
           "legendFormat": "{{handler}}",
-          "refId": "A"
+          "refId": "A",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "ce5g7qqa9spa8b"
+          }
         }
       ],
       "xaxis": {
@@ -40,12 +44,12 @@
         }
       ],
       "lines": true,
-      "fill": 1,
-      "linewidth": 2,
+      "fill": 3,
+      "linewidth": 1,
       "aliasColors": {},
       "tooltip": {
         "shared": true,
-        "sort": 0
+        "sort": "current"
       },
       "legend": {
         "show": true,
