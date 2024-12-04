@@ -11,13 +11,14 @@ from prometheus_flask_exporter import PrometheusMetrics
 # Inicializando a aplicação Flask
 app = Flask(__name__)
 
-# Configuração do Prometheus para métricas
 metrics = PrometheusMetrics(app)
-
-# Configurações essenciais do app
+# Configuração da chave secreta para sessões
 app.config['SECRET_KEY'] = 'minha_chave_secreta_super_secreta'  # Substitua por uma chave segura
+
+# Configuração do banco de dados
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root_password@mariadb/school_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 
 # Inicializando o banco de dados e o AppBuilder
 db = SQLAlchemy(app)
@@ -37,12 +38,13 @@ class Student(db.Model):
     registration = db.Column(db.String(200), nullable=False)
 
 
-# Tentativa de conexão ao banco de dados
-connection_attempts = 5
-for attempt in range(connection_attempts):
+# Tentar conectar até o MariaDB estar pronto
+attempts = 5
+for i in range(attempts):
     try:
         with app.app_context():
-            db.create_all()  # Configurando o banco de dados
+            db.create_all()  # Inicializa o banco de dados
+            # Criar um usuário administrador padrão
             if not appbuilder.sm.find_user(username='admin'):
                 appbuilder.sm.add_user(
                     username='admin',
@@ -52,14 +54,14 @@ for attempt in range(connection_attempts):
                     role=appbuilder.sm.find_role(appbuilder.sm.auth_role_admin),
                     password='admin'
                 )
-        logger.info("Banco de dados configurado com sucesso.")
+        logger.info("Banco de dados inicializado com sucesso.")
         break
     except OperationalError:
-        if attempt < connection_attempts - 1:
-            logger.warning("Falha ao conectar ao banco de dados. Retentando em 5 segundos...")
-            time.sleep(5)
+        if i < attempts - 1:
+            logger.warning("Tentativa de conexão com o banco de dados falhou. Tentando novamente em 5 segundos...")
+            time.sleep(5)  # Aguarda 5 segundos antes de tentar novamente
         else:
-            logger.error("Excesso de falhas ao conectar ao banco de dados.")
+            logger.error("Não foi possível conectar ao banco de dados após várias tentativas.")
             raise
 
 
