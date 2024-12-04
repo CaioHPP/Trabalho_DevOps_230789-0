@@ -64,7 +64,6 @@ for i in range(attempts):
             logger.error("Não foi possível conectar ao banco de dados após várias tentativas.")
             raise
 
-
 # Classe de visão para gerenciamento de alunos no painel administrativo
 class StudentView(ModelView):
     datamodel = SQLAInterface(Student)
