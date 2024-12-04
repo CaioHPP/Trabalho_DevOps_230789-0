@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         REPOSITORY_URL = 'https://github.com/CaioHPP/Trabalho_DevOps_230789-0'
-        BRANCH_NAME = 'dev'
+        BRANCH_NAME = 'main'
     }
 
     stages {
