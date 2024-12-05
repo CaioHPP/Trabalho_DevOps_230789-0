@@ -45,12 +45,7 @@
       "type": "graph",
       "title": "% de CPU Utilizada (Prometheus)",
       "datasource": "Prometheus",
-      "gridPos": {
-        "x": 12,
-        "y": 8,
-        "w": 12,
-        "h": 8
-      },
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 6 },
       "targets": [
         {
           "expr": "rate(process_cpu_seconds_total[1m])",
@@ -80,12 +75,7 @@
       "type": "graph",
       "title": "Uso de Memória (Prometheus)",
       "datasource": "Prometheus",
-      "gridPos": {
-        "x": 0,
-        "y": 16,
-        "w": 12,
-        "h": 8
-      },
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 6 },
       "targets": [
         {
           "expr": "rate(process_resident_memory_bytes[1m])",
@@ -115,7 +105,7 @@
       "type": "graph",
       "title": "Taxa de Requisições por Segundo",
       "datasource": "Prometheus",
-      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 6 },
+      "gridPos": { "x": 12, "y": 6, "w": 12, "h": 6 },
       "targets": [
         {
           "expr": "rate(prometheus_http_requests_total[1m])",
@@ -131,7 +121,7 @@
       "type": "graph",
       "title": "Tempo Médio de Resposta",
       "datasource": "Prometheus",
-      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 6 },
+      "gridPos": { "x": 0, "y": 6, "w": 12, "h": 6 }, 
       "targets": [
         {
           "expr": "rate(prometheus_http_request_duration_seconds_sum[1m]) / rate(prometheus_http_request_duration_seconds_count[1m])",
@@ -147,11 +137,16 @@
       "type": "graph",
       "title": "Requests em Processo",
       "datasource": "Prometheus",
-      "gridPos": { "x": 0, "y": 6, "w": 12, "h": 6 },
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 12,
+        "h": 8
+      },
       "targets": [
         {
           "expr": "promhttp_metric_handler_requests_in_flight",
-          "legendFormat": "Processando",
+          "legendFormat": "Nº de Requests",
           "refId": "C"
         }
       ],
@@ -163,7 +158,12 @@
       "type": "graph",
       "title": "Taxa de Erros (HTTP)",
       "datasource": "Prometheus",
-      "gridPos": { "x": 12, "y": 6, "w": 12, "h": 6 },
+      "gridPos": {
+        "x": 12,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      },
       "targets": [
         {
           "expr": "rate(prometheus_http_requests_total{status!~'2..'}[1m])",
