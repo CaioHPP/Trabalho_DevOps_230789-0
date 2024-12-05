@@ -18,8 +18,12 @@ pipeline {
             steps {
                 script {
                     // Rodar os testes com o pytest (ou qualquer outra ferramenta de testes que você esteja utilizando)
-
                     echo 'Testes antes do deploys!'
+                    sh '''
+                     docker compose build
+                    '''
+                    sh 'sleep 25' // Esperar 25 segundos para o container subir
+                    sh 'docker compose run --rm test'
                 }
             }
         }
@@ -28,21 +32,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                     docker compose build
-                    '''
-
-                    sh '''
                         docker compose up -d
                     '''
-                }
-            }
-        }
-        stage('Rodar Testes depois do deploy') {
-            steps {
-                script {
-                    // Rodar os testes com o pytest (ou qualquer outra ferramenta de testes que você esteja utilizando)
-                    sh 'sleep 50' // Esperar 50 segundos para o container subir
-                    sh 'docker compose run --rm test'
                 }
             }
         }
