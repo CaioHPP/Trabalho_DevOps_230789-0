@@ -7,43 +7,53 @@ pipeline {
     }
 
     stages {
-        stage('Baixar código do Git e Build Containers') {
+        stage('Baixar código do Git') {
             steps {
                 // Clonar o repositório do Git
                 git branch: "${BRANCH_NAME}", url: "${REPOSITORY_URL}"
-                sh 'docker-compose down -v'
-                sh 'docker-compose build'
             }
         }
 
         stage('Rodar Testes') {
             steps {
                 script {
-                    sh 'docker-compose up -d mariadb flask test mysqld_exporter prometheus grafana'
-                    sh 'sleep 40'
+                    // Rodar os testes com o pytest (ou qualquer outra ferramenta de testes que você esteja utilizando)
 
-                    try {
-                        sh 'docker-compose run --rm test'
-                    } catch (Exception e) {
-                        currentBuild.result = 'FAILURE'
-                        error 'Testes falharam. Pipeline interrompido.'
-                    }
+                    echo 'Testes antes do deploys!'
                 }
             }
         }
 
-        stage('Start Containers') {
-                steps {
-                    script {
-                        sh 'docker-compose up -d mariadb flask test mysqld_exporter prometheus grafana'
-                    }
+        stage('Build e Deploy') {
+            steps {
+                script {
+                    sh '''
+                     docker compose build
+                    '''
+
+                    sh '''
+                        docker compose up -d
+                    '''
                 }
+            }
+        }
+        stage('Rodar Testes depois do deploy') {
+            steps {
+                script {
+                    // Rodar os testes com o pytest (ou qualquer outra ferramenta de testes que você esteja utilizando)
+                    sh 'sleep 50' // Esperar 50 segundos para o container subir
+                    sh 'docker compose run --rm test'
+                }
+            }
         }
     }
 
     post {
-            failure {
-                sh 'docker-compose down -v'
-            }
+        success {
+            echo 'Pipeline executada com sucesso!'
+        }
+        failure {
+            echo 'A pipeline falhou.'
         }
     }
+}
