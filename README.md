@@ -78,19 +78,22 @@ jenkins
 
 Acesse o Jenkins em: [http://localhost:8080](http://localhost:8080)
 
-> **Indicador para imagem**: Adicione aqui uma captura de tela mostrando a interface inicial do Jenkins.
+> <image src="images/image1.png">
 
 ### **Configuração do Pipeline no Jenkins**
 
 1. Crie uma nova tarefa no menu à esquerda e escolha **Pipeline** como tipo.
+> <image src="images/image2.png">
 2. Configure as opções:
    - **Pipeline Script from SCM**.
    - **SCM**: Git.
    - **Repository URL**: `https://github.com/CaioHPP/Trabalho_DevOps_230789-0.git`.
    - **Branch**: `*/main`. (Atenção: o nome da branch pode variar).
    - **Script Path**: `Jenkinsfile`.
+> <image src="images/image3.png">   
 
 3. Salve e inicie o pipeline. Escolha "Construir Agora" para rodar o processo.
+> <image src="images/image3.5.png">   
 
 #### **Temporização no Jenkins**
 
@@ -102,7 +105,7 @@ H/5 * * * *
 
 Essa configuração executará o pipeline a cada 5 minutos. Ajuste conforme necessário.
 
-> **Indicador para imagem**: Adicione aqui uma captura de tela da configuração de temporização no Jenkins.
+> <image src="images/image4.png">   
 
 ---
 
@@ -113,9 +116,13 @@ Essa configuração executará o pipeline a cada 5 minutos. Ajuste conforme nece
 - Login: `admin` / `admin`
 - Funcionalidade: Lista de estudantes gerada pelos testes.
 
+> <image src="images/image5.png">   
+
 ### **Prometheus**
 - URL: [http://localhost:9090/targets](http://localhost:9090/targets)
 - Funcionalidade: Visualizar status dos endpoints monitorados.
+
+> <image src="images/image6.png">   
 
 ### **Grafana**
 - URL: [http://localhost:3000](http://localhost:3000)
@@ -124,31 +131,39 @@ Essa configuração executará o pipeline a cada 5 minutos. Ajuste conforme nece
   - **Status do Node**.
   - **Métricas de CPU, memória, tempo de resposta, erros HTTP, entre outras.**
 
+> <image src="images/image7.png"><image src="images/image8.png">  
+
 ---
 
 ## **Dashboards no Grafana**
 
+> <image src="images/image9.png">
 Os dashboards fornecem:
+- Status do Node.
 - % de CPU utilizada.
 - Uso de memória.
+- Tempo médio de resposta.
 - Taxa de requisições por segundo.
 - Taxa de erros.
-- Requests em processo.
-
-> **Indicador para imagem**: Adicione aqui uma captura de tela de um dos dashboards configurados no Grafana.
+- Nº de Requests em processo.
 
 ---
 
 ## **Observações**
 
-- Antes de rodar o Jenkins, sempre execute:
-
+>- Caso se depare com o seguinte erro:
+><image src="images/image10.png">
+>
+>Pare o Jenkins, execute o comando abaixo e reinicie o Jenkins:
 ```bash
 sudo chmod 777 /var/run/docker.sock
 ```
 
-- Caso dê um erro ao rodar o Jenkins, execute:
+>- Caso se depare com o seguinte erro:
+><image src="images/image11.png">
+>Pare o serviço do Jenkins e reinicie o Jenkins:
 
 ```bash
 sudo systemctl stop jenkins
 jenkins
+```
