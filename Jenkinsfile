@@ -11,7 +11,6 @@ pipeline {
             steps {
                 // Clonar o repositório do Git
                 git branch: "${BRANCH_NAME}", url: "${REPOSITORY_URL}"
-                sh 'docker-compose down'
                 sh 'docker-compose build'
             }
         }
@@ -26,7 +25,7 @@ pipeline {
                         sh 'docker-compose run --rm test'
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
-                        error 'Testes falharam. Pipeline interrompido.'
+                        error 'Test fail. Aborting build.'
                     }
                 }
             }
